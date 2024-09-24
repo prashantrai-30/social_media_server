@@ -7,8 +7,18 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const cors = require('cors');
-app.use(cors());
+app.use(cors({
+  origin: 'https://master--socialmediatask3w.netlify.app'
+}));
 app.use(express.json());
+
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  res.set('Surrogate-Control', 'no-store');
+  next();
+});
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
